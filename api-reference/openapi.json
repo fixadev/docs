@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
+    "title": "pixa API",
+    "description": "the text to animation API",
     "license": {
       "name": "MIT"
     },
@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://api.pixa.dev"
     }
   ],
   "security": [
@@ -19,54 +19,15 @@
     }
   ],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/generate": {
       "post": {
-        "description": "Creates a new plant in the store",
+        "description": "generates an animation from a text prompt",
         "requestBody": {
-          "description": "Plant to add to the store",
+          "description": "",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "$ref": "#/components/schemas/GenerateParams"
               }
             }
           },
@@ -74,47 +35,14 @@
         },
         "responses": {
           "200": {
-            "description": "plant response",
+            "description": "hls playlist url",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
+                  "$ref": "#/components/schemas/GenerateResponse"
                 }
               }
             }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
           },
           "400": {
             "description": "unexpected error",
@@ -132,41 +60,55 @@
   },
   "components": {
     "schemas": {
-      "Plant": {
+      "GenerateParams": {
         "required": [
-          "name"
+          "prompt"
         ],
         "type": "object",
         "properties": {
-          "name": {
-            "description": "The name of the plant",
+          "prompt": {
+            "default": "explain riemann sums",
+            "description": "The prompt to generate the video",
             "type": "string"
           },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
+          "theme": {
+            "description": "The background color of the video",
+            "type": "string",
+            "enum": ["light", "dark"]
+          },
+          "fps": {
+            "description": "The frames per second of the video",
+            "type": "integer",
+            "default": 30,
+            "minimum": 1,
+            "maximum": 60
+          },
+          "height": {
+            "description": "The height of the video in pixels",
+            "type": "integer",
+            "default": 540,
+            "minimum": 1,
+            "maximum": 1080
+          },
+          "width": {
+            "description": "The width of the video in pixels",
+            "type": "integer",
+            "default": 960,
+            "minimum": 1,
+            "maximum": 1920
           }
         }
       },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
+      "GenerateResponse": {
+        "required": [
+          "hls_playlist_url"
+        ],
+        "type": "object",
+        "properties": {
+          "hls_playlist_url": {
+            "type": "string"
           }
-        ]
+        }
       },
       "Error": {
         "required": [
