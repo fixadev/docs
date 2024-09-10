@@ -19,7 +19,7 @@
     }
   ],
   "paths": {
-    "/generate": {
+    "/create": {
       "post": {
         "description": "generates an animation from a text prompt",
         "requestBody": {
