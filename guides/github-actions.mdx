@@ -1,5 +1,93 @@
 ---
 title: set up github actions
-description: "run a fixa test as part of your CI workflow"
+description: "run a fixa test as part of your ci workflow"
 icon: "github"
 ---
+
+## prerequisites
+
+- a github repository for your project
+- a fixa API key
+- at least one agent configured in fixa
+
+## setup instructions
+
+<Steps>
+<Step title="create a github actions secret to store your fixa API key">
+  1. go to your repository settings
+  2. navigate to "secrets and variables" → "actions"
+  3. click "new repository secret"
+  4. set the name to `FIXA_API_KEY` and the secret to your fixa API key
+</Step>
+
+<Step title="create a github workflow">
+create a workflow file in your repository at `.github/workflows/fixa-test.yml` with the following content:
+
+```yaml
+name: run fixa test
+
+on: # modify this to change when the workflow runs
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  run-test:
+    uses: fixadev/fixa-ci/.github/workflows/run-test.yml@main
+    with:
+      agent_id: "your-agent-id"
+      # Optional parameters:
+      # scenario_ids: "scenario1,scenario2"
+      # test_agent_ids: "agent1,agent2"
+      # time_limit: 15
+    secrets:
+      FIXA_API_KEY: ${{ secrets.FIXA_API_KEY }}
+```
+
+</Step>
+</Steps>
+
+## configuration options
+
+the workflow accepts the following inputs:
+
+- `agent_id` (required): the id of your fixa agent
+- `scenario_ids` (optional): comma-separated list of specific scenarios to test
+- `test_agent_ids` (optional): comma-separated list of test agents to use
+- `time_limit` (optional): test duration limit in minutes (default: 10)
+
+## example configurations
+
+### basic setup
+
+```yaml
+jobs:
+  test:
+    uses: fixadev/fixa-ci/.github/workflows/run-test.yml@main
+    with:
+      agent_id: "agent_abc123"
+    secrets:
+      FIXA_API_KEY: ${{ secrets.FIXA_API_KEY }}
+```
+
+### advanced setup with all options
+
+```yaml
+jobs:
+  test:
+    uses: fixadev/fixa-ci/.github/workflows/run-test.yml@main
+    with:
+      agent_id: "agent_abc123"
+      scenario_ids: "scenario_1,scenario_2"
+      test_agent_ids: "test_agent_1,test_agent_2"
+      time_limit: 15
+    secrets:
+      FIXA_API_KEY: ${{ secrets.FIXA_API_KEY }}
+```
+
+## workflow execution
+
+the workflow will run the specified test whenever a commit is pushed to main or a pull request is opened (depending on how you've configured it).
+
+it will succeed if all of the test calls succeeded or fail if at least one test call failed. test results will be available in your github actions workflow run logs.
