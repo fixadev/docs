@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "pixa docs",
+  "name": "fixa docs",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
@@ -17,64 +17,35 @@
   },
   "topbarLinks": [
     {
-      "name": "Support",
-      "url": "mailto:contact@pixa.dev"
+      "name": "support",
+      "url": "mailto:contact@fixa.dev"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "dashboard",
+    "url": "https://www.fixa.dev/dashboard"
   },
   "tabs": [
+    {
+      "name": "documentation",
+      "url": "/"
+    },
     {
       "name": "API Reference",
       "url": "api-reference"
     }
   ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    }
-  ],
+  "anchors": [],
   "navigation": [
+    { "group": "get started", "pages": ["introduction"] },
     {
-      "group": "Get Started",
-      "pages": [
-        "introduction",
-        "quickstart" 
-      ]
-    },
-    {
-      "group": "Essentials",
-      "pages": [
-        "essentials/prompting",
-        "essentials/playback",
-        "essentials/audio" 
-      ]
-    },
-    {
-      "group": "API Documentation",
-      "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "Endpoints",
-      "pages": [
-        "api-reference/endpoint/create"
-      ]
+      "group": "guides",
+      "pages": ["guides/github-actions"]
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/pixa",
-    "github": "https://github.com/pixa-dev",
+    "x": "https://x.com/fixa_dev",
+    "github": "https://github.com/fixadev",
     "linkedin": "https://www.linkedin.com/company/pixa-dev"
   }
 }
