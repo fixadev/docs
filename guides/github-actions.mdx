@@ -23,7 +23,7 @@ icon: "github"
 <Step title="create a github workflow">
 create a workflow file in your repository at `.github/workflows/fixa-test.yml` with the following content:
 
-```yaml
+```yaml fixa-test.yml
 name: run fixa test
 
 on: # modify this to change when the workflow runs
@@ -52,10 +52,17 @@ jobs:
 
 the workflow accepts the following inputs:
 
-- `agent_id` (required): the id of your fixa agent
-- `scenario_ids` (optional): comma-separated list of specific scenarios to test. leave it blank to test all scenarios
-- `test_agent_ids` (optional): comma-separated list of test agents to use. leave it blank to use all test agents
-- `time_limit` (optional): test duration limit in minutes (default: 10)
+`agent_id` - string <br/>
+the id of your fixa agent
+
+`scenario_ids?` - string <br/>
+comma-separated list of specific scenarios to test. leave it blank to test all scenarios
+
+`test_agent_ids?` - string <br/>
+comma-separated list of test agents to use. leave it blank to use all test agents
+
+`time_limit?` - number <br/>
+test duration limit in minutes (default: 10)
 
 ## example configurations
 
