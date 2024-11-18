@@ -41,11 +41,19 @@
     {
       "group": "guides",
       "pages": ["guides/github-actions"]
+    },
+    {
+      "group": "API reference",
+      "pages": [
+        "api-reference/endpoint/create-test",
+        "api-reference/endpoint/get-test-status"
+      ]
     }
   ],
   "footerSocials": {
     "x": "https://x.com/fixa_dev",
     "github": "https://github.com/fixadev",
     "linkedin": "https://www.linkedin.com/company/pixa-dev"
-  }
+  },
+  "openapi": "./api-reference/openapi.json"
 }

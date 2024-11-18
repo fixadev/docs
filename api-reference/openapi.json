@@ -1,8 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "pixa API",
-    "description": "the text to animation API",
+    "title": "fixa API",
     "license": {
       "name": "MIT"
     },
@@ -10,7 +9,7 @@
   },
   "servers": [
     {
-      "url": "https://api.pixa.dev"
+      "url": "https://www.fixa.dev/api/v1"
     }
   ],
   "security": [
@@ -19,15 +18,15 @@
     }
   ],
   "paths": {
-    "/create": {
+    "/tests": {
       "post": {
-        "description": "generates an animation from a text prompt",
+        "description": "creates a new test",
         "requestBody": {
           "description": "",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GenerateParams"
+                "$ref": "#/components/schemas/TestParams"
               }
             }
           },
@@ -35,21 +34,58 @@
         },
         "responses": {
           "200": {
-            "description": "hls playlist url",
+            "description": "test created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GenerateResponse"
+                  "type": "object",
+                  "required": ["testId"],
+                  "properties": {
+                    "testId": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
-          },
-          "400": {
-            "description": "unexpected error",
+          }
+        }
+      }
+    },
+    "/tests/{testId}/status": {
+      "get": {
+        "parameters": [
+          {
+            "name": "testId",
+            "in": "path",
+            "required": true,
+            "description": "the id of the test",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "retrieves the status of a test",
+        "responses": {
+          "200": {
+            "description": "test status retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "object",
+                  "required": ["status"],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": ["completed", "in_progress", "not_found"]
+                    },
+                    "calls": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Call"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -60,70 +96,37 @@
   },
   "components": {
     "schemas": {
-      "GenerateParams": {
-        "required": [
-          "prompt"
-        ],
+      "TestParams": {
+        "required": ["agent_id"],
         "type": "object",
         "properties": {
-          "prompt": {
-            "default": "explain riemann sums",
-            "description": "The prompt to generate the video",
+          "agent_id": {
             "type": "string"
           },
-          "theme": {
-            "description": "The background color of the video",
+          "scenario_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "test_agent_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Call": {
+        "type": "object",
+        "required": ["id", "result", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "status": {
             "type": "string",
-            "enum": ["light", "dark"]
+            "enum": ["in_progress", "analyzing", "completed"]
           },
-          "fps": {
-            "description": "The frames per second of the video",
-            "type": "integer",
-            "default": 30,
-            "minimum": 1,
-            "maximum": 60
-          },
-          "height": {
-            "description": "The height of the video in pixels",
-            "type": "integer",
-            "default": 540,
-            "minimum": 1,
-            "maximum": 1080
-          },
-          "width": {
-            "description": "The width of the video in pixels",
-            "type": "integer",
-            "default": 960,
-            "minimum": 1,
-            "maximum": 1920
-          }
-        }
-      },
-      "GenerateResponse": {
-        "required": [
-          "hls_playlist_url"
-        ],
-        "type": "object",
-        "properties": {
-          "hls_playlist_url": {
-            "type": "string"
-          }
-        }
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
+          "result": { "type": "string", "enum": ["success", "failure"] }
         }
       }
     },
