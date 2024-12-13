@@ -177,7 +177,7 @@
             "items": {
               "type": "string"
             },
-            "description": "array of test agents to use. leave it blank to use all test agents"
+            "description": "array of personas that will call your agent. leave it blank to use all personas"
           }
         }
       },
