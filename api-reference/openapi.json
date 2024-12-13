@@ -9,7 +9,7 @@
   },
   "servers": [
     {
-      "url": "https://www.fixa.dev/api/v1"
+      "url": "https://api.fixa.dev/v1"
     }
   ],
   "security": [
@@ -94,26 +94,85 @@
           }
         }
       }
+    },
+    "/upload-call": {
+      "post": {
+        "description": "uploads a new call recording",
+        "requestBody": {
+          "description": "Call recording details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["callId", "stereoRecordingUrl", "agentId"],
+                "properties": {
+                  "callId": {
+                    "type": "string",
+                    "description": "unique identifier for the call"
+                  },
+                  "stereoRecordingUrl": {
+                    "type": "string",
+                    "description": "URL where the stereo call recording is stored"
+                  },
+                  "agentId": {
+                    "type": "string",
+                    "description": "ID of the agent associated with the call"
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "description": "optional custom metadata fields you'd like to use to analyze your call data (i.e. region, llm, tts model, etc.)",
+                    "additionalProperties": true,
+                    "example": {
+                      "regionId": "MENA",
+                      "ttsModel": "eleven-labs-v2"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "call uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["callId"],
+                  "properties": {
+                    "callId": {
+                      "type": "string",
+                      "description": "the id of the uploaded call"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
       "TestParams": {
-        "required": ["agent_id"],
+        "required": ["agentId"],
         "type": "object",
         "properties": {
-          "agent_id": {
+          "agentId": {
             "type": "string",
             "description": "the id of your fixa agent"
           },
-          "scenario_ids": {
+          "scenarioIds": {
             "type": "array",
             "items": {
               "type": "string"
             },
             "description": "array of specific scenarios to test. leave it blank to test all scenarios"
           },
-          "test_agent_ids": {
+          "personaIds": {
             "type": "array",
             "items": {
               "type": "string"

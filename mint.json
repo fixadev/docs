@@ -48,6 +48,12 @@
         "api-reference/endpoint/create-test",
         "api-reference/endpoint/get-test-status"
       ]
+    },
+    {
+      "group": "observability",
+      "pages": [
+        "api-reference/endpoint/upload-call"
+      ]
     }
   ],
   "footerSocials": {
