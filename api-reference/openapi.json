@@ -118,6 +118,11 @@
                     "type": "string",
                     "description": "ID of the agent associated with the call"
                   },
+                  "saveRecording": {
+                    "type": "boolean",
+                    "description": "whether to save the recording to fixa's storage. this is useful if you're sending us presigned urls or don't want to pay for storage",
+                    "default": "true"
+                  },
                   "metadata": {
                     "type": "object",
                     "description": "optional custom metadata fields you'd like to use to analyze your call data (i.e. region, llm, tts model, etc.)",
