@@ -128,7 +128,7 @@
                     "description": "optional custom metadata fields you'd like to use to analyze your call data (i.e. region, llm, tts model, etc.)",
                     "additionalProperties": true,
                     "example": {
-                      "regionId": "MENA",
+                      "regionId": "USA",
                       "ttsModel": "eleven-labs-v2"
                     }
                   }
@@ -145,11 +145,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["callId"],
+                  "required": ["success"],
                   "properties": {
-                    "callId": {
-                      "type": "string",
-                      "description": "the id of the uploaded call"
+                    "success": {
+                      "type": "boolean",
+                      "description": "whether the call was uploaded successfully"
                     }
                   }
                 }
