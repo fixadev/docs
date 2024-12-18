@@ -39,7 +39,7 @@ jobs:
       agent_id: "your-agent-id"
       # Optional parameters:
       # scenario_ids: "scenario1,scenario2"
-      # test_agent_ids: "agent1,agent2"
+      # persona_ids: "agent1,agent2"
       # time_limit: 15
     secrets:
       FIXA_API_KEY: ${{ secrets.FIXA_API_KEY }}
@@ -58,7 +58,7 @@ the id of your fixa agent
 `scenario_ids?` - string <br/>
 comma-separated list of specific scenarios to test. leave it blank to test all scenarios
 
-`test_agent_ids?` - string <br/>
+`persona_ids?` - string <br/>
 comma-separated list of test agents to use. leave it blank to use all test agents
 
 `time_limit?` - number <br/>
@@ -87,7 +87,7 @@ jobs:
     with:
       agent_id: "agent_abc123"
       scenario_ids: "scenario_1,scenario_2"
-      test_agent_ids: "test_agent_1,test_agent_2"
+      persona_ids: "test_agent_1,test_agent_2"
       time_limit: 15
     secrets:
       FIXA_API_KEY: ${{ secrets.FIXA_API_KEY }}
