@@ -18,8 +18,304 @@
     }
   ],
   "paths": {
+    "/agent": {
+      "get": {
+        "tags": ["agent"],
+        "operationId": "listAgents",
+        "description": "Get all agents for the authenticated user",
+        "responses": {
+          "200": {
+            "description": "Agents retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "agents"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "agents": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Agent"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["agent"],
+        "operationId": "createAgent",
+        "description": "Create a new agent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["phoneNumber", "name", "systemPrompt"],
+                "properties": {
+                  "phoneNumber": {
+                    "type": "string",
+                    "description": "Phone number for the agent",
+                    "pattern": "^\\+?[\\d\\s-()]+$"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the agent",
+                    "minLength": 2,
+                    "maxLength": 50
+                  },
+                  "systemPrompt": {
+                    "type": "string",
+                    "description": "System prompt for the agent",
+                    "minLength": 10,
+                    "maxLength": 2000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Agent created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "agent"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "agent": {
+                      "$ref": "#/components/schemas/Agent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/{id}": {
+      "get": {
+        "tags": ["agent"],
+        "operationId": "getAgent",
+        "description": "Get a single agent by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agent retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "agent"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "agent": {
+                      "$ref": "#/components/schemas/Agent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["agent"],
+        "operationId": "updateAgent",
+        "description": "Update an agent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["phoneNumber", "name", "systemPrompt"],
+                "properties": {
+                  "phoneNumber": {
+                    "type": "string",
+                    "description": "Phone number for the agent",
+                    "pattern": "^\\+?[\\d\\s-()]+$"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the agent",
+                    "minLength": 2,
+                    "maxLength": 50
+                  },
+                  "systemPrompt": {
+                    "type": "string",
+                    "description": "System prompt for the agent",
+                    "minLength": 10,
+                    "maxLength": 2000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Agent updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "agent"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "agent": {
+                      "$ref": "#/components/schemas/Agent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["agent"],
+        "operationId": "deleteAgent",
+        "description": "delete an agent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "agent deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/tests": {
       "post": {
+        "tags": ["tests"],
+        "operationId": "createTest",
         "description": "creates a new test",
         "requestBody": {
           "description": "",
@@ -55,6 +351,8 @@
     },
     "/tests/{testId}/status": {
       "get": {
+        "tags": ["tests"],
+        "operationId": "getTestStatus",
         "parameters": [
           {
             "name": "testId",
@@ -97,6 +395,8 @@
     },
     "/upload-call": {
       "post": {
+        "tags": ["calls"],
+        "operationId": "uploadCall",
         "description": "uploads a new call recording",
         "requestBody": {
           "description": "Call recording details",
@@ -158,10 +458,744 @@
           }
         }
       }
+    },
+    "/scenario/{agentId}": {
+      "get": {
+        "tags": ["scenario"],
+        "operationId": "getScenarios",
+        "description": "Get all scenarios for an agent",
+        "parameters": [
+          {
+            "name": "agentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scenarios retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "scenarios"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "scenarios": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Scenario"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["scenario"],
+        "operationId": "createScenario",
+        "description": "Create a new scenario",
+        "parameters": [
+          {
+            "name": "agentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScenarioInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Scenario created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "scenario"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "scenario": {
+                      "$ref": "#/components/schemas/Scenario"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scenario/{id}": {
+      "put": {
+        "tags": ["scenario"],
+        "operationId": "updateScenario",
+        "description": "Update a scenario",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScenarioInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Scenario updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "scenario"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "scenario": {
+                      "$ref": "#/components/schemas/Scenario"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Scenario not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "delete a scenario",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scenario deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Scenario not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluation/general": {
+      "get": {
+        "description": "Get general evaluations",
+        "responses": {
+          "200": {
+            "description": "General evaluations retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Evaluation"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluation/templates": {
+      "get": {
+        "description": "Get evaluation templates",
+        "responses": {
+          "200": {
+            "description": "Evaluation templates retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EvaluationTemplate"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluation/template": {
+      "post": {
+        "description": "Create evaluation template",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationTemplateInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Template created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationTemplate"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluation/template/{id}": {
+      "put": {
+        "description": "update evaluation template",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationTemplateInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Template updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationTemplate"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluation": {
+      "post": {
+        "description": "Create evaluation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Evaluation created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Evaluation"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluation/{id}": {
+      "put": {
+        "description": "Update evaluation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Evaluation updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Evaluation"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete evaluation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Evaluation deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Evaluation"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluation/{id}/toggle": {
+      "patch": {
+        "description": "Toggle evaluation enabled status",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["enabled"],
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "agentId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Evaluation status toggled successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Evaluation"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluation/groups": {
+      "get": {
+        "description": "Get evaluation groups",
+        "responses": {
+          "200": {
+            "description": "Evaluation groups retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EvaluationGroup"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluation/group": {
+      "post": {
+        "description": "Create evaluation group",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationGroupInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Group created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationGroup"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluation/group/{id}": {
+      "put": {
+        "description": "Update evaluation group",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationGroupInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Group updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationGroup"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete evaluation group",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Group deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "required": ["success", "error"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [false]
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message"
+          }
+        }
+      },
       "TestParams": {
         "required": ["agentId"],
         "type": "object",
@@ -202,6 +1236,249 @@
             "description": "the result of the call"
           }
         }
+      },
+      "Agent": {
+        "type": "object",
+        "required": ["id", "phoneNumber", "name", "systemPrompt", "ownerId"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the agent"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "Phone number for the agent"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the agent"
+          },
+          "systemPrompt": {
+            "type": "string",
+            "description": "System prompt for the agent"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "ID of the user who owns this agent"
+          }
+        }
+      },
+      "Evaluation": {
+        "type": "object",
+        "required": [
+          "id",
+          "createdAt",
+          "enabled",
+          "isCritical",
+          "params",
+          "evaluationTemplateId"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the evaluation"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp of the evaluation"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether the evaluation is enabled"
+          },
+          "isCritical": {
+            "type": "boolean",
+            "description": "Whether this is a critical evaluation"
+          },
+          "params": {
+            "type": "object",
+            "description": "JSON parameters for the evaluation",
+            "additionalProperties": true
+          },
+          "evaluationTemplateId": {
+            "type": "string",
+            "description": "ID of the associated evaluation template"
+          },
+          "scenarioId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional ID of the associated scenario"
+          },
+          "evaluationGroupId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional ID of the associated evaluation group"
+          },
+          "agentId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional ID of the associated agent"
+          }
+        }
+      },
+      "ScenarioInput": {
+        "type": "object",
+        "required": ["name", "instructions", "evaluations"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "instructions": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "evaluations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Evaluation"
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "Scenario": {
+        "type": "object",
+        "required": ["id", "name", "instructions", "evaluations"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "instructions": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "evaluations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Evaluation"
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "EvaluationTemplate": {
+        "type": "object",
+        "required": [
+          "id",
+          "name", 
+          "description",
+          "params"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the evaluation template"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the evaluation template"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the evaluation template"
+          },
+          "params": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Parameters for the evaluation"
+          },
+          "scenarioId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Associated scenario ID"
+          },
+          "toolCallExpectedResult": {
+            "type": "string",
+            "description": "Expected result for tool call"
+          },
+          "agentId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Associated agent ID"
+          },
+          "evaluationGroupId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Associated evaluation group ID"
+          }
+        }
+      },
+      "EvaluationTemplateInput": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": { 
+          "name": {
+            "type": "string",
+            "description": "Name of the evaluation template input"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the evaluation template input"
+          },
+          "params": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Parameters for the evaluation"
+          }
+        }
+      },
+      "EvaluationInput": {
+        "type": "object",
+        "required": ["name", "description", "evaluationGroupId"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the evaluation input"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the evaluation input"
+          },
+          "evaluationGroupId": {
+            "type": "string",
+            "description": "ID of the associated evaluation group"
+          }
+        }
+      },
+      "EvaluationGroup": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the evaluation group"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the evaluation group"
+          }
+        }
+      },
+      "EvaluationGroupInput": {
+        "type": "object",
+        "required": ["name", "evaluationGroupId"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the evaluation group input"
+          },
+          "evaluationGroupId": {
+            "type": "string",
+            "description": "ID of the associated evaluation group"
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -211,4 +1488,4 @@
       }
     }
   }
-}
+              }
