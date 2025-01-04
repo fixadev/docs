@@ -423,6 +423,12 @@
                     "description": "whether to save the recording to fixa's storage. this is useful if you're sending presigned urls or don't want to pay for storage",
                     "default": "true"
                   },
+                  "language": {
+                    "type": "string",
+                    "description": "language of the call. defaults to english",
+                    "enum": ["bg", "ca", "zh", "zh-CN", "zh-Hans", "zh-TW", "zh-Hant", "zh-HK", "cs", "da", "da-DK", "nl", "en", "en-US", "en-AU", "en-GB", "en-NZ", "en-IN", "et", "fi", "nl-BE", "fr", "fr-CA", "de", "de-CH", "el", "hi", "hu", "id", "it", "ja", "ko", "ko-KR", "lv", "lt", "ms", "no", "pl", "pt", "pt-BR", "pt-PT", "ro", "ru", "sk", "es", "es-419", "sv", "sv-SE", "th", "th-TH", "tr", "uk", "vi"],
+                    "default": "en"
+                  },
                   "metadata": {
                     "type": "object",
                     "description": "optional custom metadata fields you'd like to use to analyze your call data (i.e. region, llm, tts model, etc.)",
