@@ -121,7 +121,7 @@
                   "saveRecording": {
                     "type": "boolean",
                     "description": "whether to save the recording to fixa's storage. this is useful if you're sending presigned urls or don't want to pay for storage",
-                    "default": "true"
+                    "default": true
                   },
                   "metadata": {
                     "type": "object",
