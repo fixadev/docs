@@ -412,7 +412,7 @@
                   },
                   "agentId": {
                     "type": "string",
-                    "description": "the id of the agent associated with the call. this is used to identify which calls came from which agent. if you haven't added an agent with this id to fixa, it will be created automatically"
+                    "description": "the ID of the agent associated with the call. this can be your internal agent ID. this is used to identify which calls came from which agent. if you haven't added an agent with this ID to fixa, it will be created automatically"
                   },
                   "stereoRecordingUrl": {
                     "type": "string",
