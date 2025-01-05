@@ -1242,7 +1242,7 @@
             "description": "the result of the call"
           }
         }
-      },
+      }, 
       "Agent": {
         "type": "object",
         "required": ["id", "phoneNumber", "name", "systemPrompt", "ownerId"],
@@ -1646,26 +1646,6 @@
             "items": {
               "$ref": "#/components/schemas/Call"
             }
-          }
-        }
-      },
-      "Call": {
-        "type": "object",
-        "required": ["id", "result", "status"],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the call"
-          },
-          "status": {
-            "type": "string",
-            "enum": ["in_progress", "analyzing", "completed"],
-            "description": "Status of the call"
-          },
-          "result": {
-            "type": "string",
-            "enum": ["success", "failure"],
-            "description": "Result of the call"
           }
         }
       },
