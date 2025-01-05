@@ -43,10 +43,38 @@
       "pages": ["guides/github-actions"]
     },
     {
+      "group": "agents",
+      "pages": [
+        "api-reference/endpoint/agents/get-agents",
+        "api-reference/endpoint/agents/get-agent",
+        "api-reference/endpoint/agents/create-agent",
+        "api-reference/endpoint/agents/update-agent",
+        "api-reference/endpoint/agents/delete-agent"
+      ]
+    },
+    {
       "group": "tests",
       "pages": [
-        "api-reference/endpoint/create-test",
-        "api-reference/endpoint/get-test-status"
+        "api-reference/endpoint/tests/create-test",
+        "api-reference/endpoint/tests/get-test-status"
+      ]
+    },
+    {
+      "group": "scenarios",
+      "pages": [
+        "api-reference/endpoint/scenarios/get-scenarios",
+        "api-reference/endpoint/scenarios/create-scenario",
+        "api-reference/endpoint/scenarios/update-scenario",
+        "api-reference/endpoint/scenarios/delete-scenario"
+      ]
+    },
+    {
+      "group": "alerts",
+      "pages": [
+        "api-reference/endpoint/alerts/get-alerts",
+        "api-reference/endpoint/alerts/create-alert",
+        "api-reference/endpoint/alerts/update-alert",
+        "api-reference/endpoint/alerts/delete-alert"
       ]
     },
     {
