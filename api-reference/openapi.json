@@ -416,7 +416,7 @@
                   },
                   "stereoRecordingUrl": {
                     "type": "string",
-                    "description": "URL where the stereo call recording is stored. recordings must be two channel audio files with the caller on the left channel and your agent on the right channel. it can either be a presigned url or a public url to a file in your storage bucket"
+                    "description": "URL where the stereo call recording is stored. it can either be a presigned url or a public url to a file in your storage bucket. recordings must be two channel audio files with the caller on the left channel and your agent on the right channel."
                   },
                   "saveRecording": {
                     "type": "boolean",
