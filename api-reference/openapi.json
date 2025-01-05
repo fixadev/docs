@@ -410,28 +410,82 @@
                     "type": "string",
                     "description": "unique identifier for the call"
                   },
-                  "stereoRecordingUrl": {
-                    "type": "string",
-                    "description": "URL where the stereo call recording is stored"
-                  },
                   "agentId": {
                     "type": "string",
-                    "description": "ID of the agent associated with the call"
+                    "description": "the id of the agent associated with the call. this is used to identify which calls came from which agent. it can be your internal agent id."
+                  },
+                  "stereoRecordingUrl": {
+                    "type": "string",
+                    "description": "URL where the stereo call recording is stored. recordings must be two channel audio files with the caller on the left channel and your agent on the right channel. it can either be a presigned url or a public url to a file in your storage bucket"
                   },
                   "saveRecording": {
                     "type": "boolean",
-                    "description": "whether to save the recording to fixa's storage. this is useful if you're sending presigned urls or don't want to pay for storage",
+                    "description": "whether to save the recording to fixa's storage. must be true if you are sending presigned urls.",
                     "default": true
                   },
                   "language": {
                     "type": "string",
                     "description": "language of the call. defaults to english",
-                    "enum": ["bg", "ca", "zh", "zh-CN", "zh-Hans", "zh-TW", "zh-Hant", "zh-HK", "cs", "da", "da-DK", "nl", "en", "en-US", "en-AU", "en-GB", "en-NZ", "en-IN", "et", "fi", "nl-BE", "fr", "fr-CA", "de", "de-CH", "el", "hi", "hu", "id", "it", "ja", "ko", "ko-KR", "lv", "lt", "ms", "no", "pl", "pt", "pt-BR", "pt-PT", "ro", "ru", "sk", "es", "es-419", "sv", "sv-SE", "th", "th-TH", "tr", "uk", "vi"],
+                    "enum": [
+                      "bg",
+                      "ca",
+                      "zh",
+                      "zh-CN",
+                      "zh-Hans",
+                      "zh-TW",
+                      "zh-Hant",
+                      "zh-HK",
+                      "cs",
+                      "da",
+                      "da-DK",
+                      "nl",
+                      "en",
+                      "en-US",
+                      "en-AU",
+                      "en-GB",
+                      "en-NZ",
+                      "en-IN",
+                      "et",
+                      "fi",
+                      "nl-BE",
+                      "fr",
+                      "fr-CA",
+                      "de",
+                      "de-CH",
+                      "el",
+                      "hi",
+                      "hu",
+                      "id",
+                      "it",
+                      "ja",
+                      "ko",
+                      "ko-KR",
+                      "lv",
+                      "lt",
+                      "ms",
+                      "no",
+                      "pl",
+                      "pt",
+                      "pt-BR",
+                      "pt-PT",
+                      "ro",
+                      "ru",
+                      "sk",
+                      "es",
+                      "es-419",
+                      "sv",
+                      "sv-SE",
+                      "th",
+                      "th-TH",
+                      "tr",
+                      "uk",
+                      "vi"
+                    ],
                     "default": "en"
                   },
                   "metadata": {
                     "type": "object",
-                    "description": "optional custom metadata fields you'd like to use to analyze your call data (i.e. region, llm, tts model, etc.)",
+                    "description": "optional custom metadata fields you'd like to use to analyze your call data (i.e. region, llm, tts model, etc.). these can be used to filter calls in the dashboard",
                     "additionalProperties": true,
                     "example": {
                       "regionId": "USA",
@@ -1242,7 +1296,7 @@
             "description": "the result of the call"
           }
         }
-      }, 
+      },
       "Agent": {
         "type": "object",
         "required": ["id", "phoneNumber", "name", "systemPrompt", "ownerId"],
@@ -1431,12 +1485,7 @@
       },
       "EvaluationTemplate": {
         "type": "object",
-        "required": [
-          "id",
-          "name", 
-          "description",
-          "params"
-        ],
+        "required": ["id", "name", "description", "params"],
         "properties": {
           "id": {
             "type": "string",
@@ -1481,7 +1530,7 @@
       "EvaluationTemplateInput": {
         "type": "object",
         "required": ["name", "description"],
-        "properties": { 
+        "properties": {
           "name": {
             "type": "string",
             "description": "Name of the evaluation template input"
