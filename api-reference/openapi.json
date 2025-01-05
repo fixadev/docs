@@ -18,7 +18,7 @@
     }
   ],
   "paths": {
-    "/agent": {
+    "/agents": {
       "get": {
         "tags": ["agent"],
         "operationId": "listAgents",
@@ -125,7 +125,7 @@
         }
       }
     },
-    "/agent/{id}": {
+    "/agents/{id}": {
       "get": {
         "tags": ["agent"],
         "operationId": "getAgent",
@@ -153,7 +153,7 @@
                       "type": "boolean"
                     },
                     "agent": {
-                      "$ref": "#/components/schemas/Agent"
+                      "$ref": "#/components/schemas/AgentWithIncludes"
                     }
                   }
                 }
@@ -239,7 +239,7 @@
                       "type": "boolean"
                     },
                     "agent": {
-                      "$ref": "#/components/schemas/Agent"
+                      "$ref": "#/components/schemas/AgentWithIncludes"
                     }
                   }
                 }
@@ -465,7 +465,7 @@
         }
       }
     },
-    "/scenario/{agentId}": {
+    "/scenarios/{agentId}": {
       "get": {
         "tags": ["scenario"],
         "operationId": "getScenarios",
@@ -582,7 +582,7 @@
         }
       }
     },
-    "/scenario/{id}": {
+    "/scenarios/{id}": {
       "put": {
         "tags": ["scenario"],
         "operationId": "updateScenario",
@@ -711,7 +711,7 @@
         }
       }
     },
-    "/evaluation/general": {
+    "/evaluations/general": {
       "get": {
         "description": "Get general evaluations",
         "responses": {
@@ -741,7 +741,7 @@
         }
       }
     },
-    "/evaluation/templates": {
+    "/evaluations/templates": {
       "get": {
         "description": "Get evaluation templates",
         "responses": {
@@ -771,7 +771,7 @@
         }
       }
     },
-    "/evaluation/template": {
+    "/evaluations/template": {
       "post": {
         "description": "Create evaluation template",
         "requestBody": {
@@ -808,7 +808,7 @@
         }
       }
     },
-    "/evaluation/template/{id}": {
+    "/evaluations/template/{id}": {
       "put": {
         "description": "update evaluation template",
         "parameters": [
@@ -855,7 +855,7 @@
         }
       }
     },
-    "/evaluation": {
+    "/evaluations": {
       "post": {
         "description": "Create evaluation",
         "requestBody": {
@@ -892,7 +892,7 @@
         }
       }
     },
-    "/evaluation/{id}": {
+    "/evaluations/{id}": {
       "put": {
         "description": "Update evaluation",
         "parameters": [
@@ -974,7 +974,7 @@
         }
       }
     },
-    "/evaluation/{id}/toggle": {
+    "/evaluations/{id}/toggle": {
       "patch": {
         "description": "Toggle evaluation enabled status",
         "parameters": [
@@ -1030,7 +1030,7 @@
         }
       }
     },
-    "/evaluation/groups": {
+    "/evaluations/groups": {
       "get": {
         "description": "Get evaluation groups",
         "responses": {
@@ -1060,7 +1060,7 @@
         }
       }
     },
-    "/evaluation/group": {
+    "/evaluations/group": {
       "post": {
         "description": "Create evaluation group",
         "requestBody": {
@@ -1097,7 +1097,7 @@
         }
       }
     },
-    "/evaluation/group/{id}": {
+    "/evaluations/group/{id}": {
       "put": {
         "description": "Update evaluation group",
         "parameters": [
@@ -1262,10 +1262,69 @@
           "systemPrompt": {
             "type": "string",
             "description": "System prompt for the agent"
-          },
-          "ownerId": {
+          }
+        }
+      },
+      "AgentWithIncludes": {
+        "type": "object",
+        "required": ["id", "phoneNumber", "name", "systemPrompt", "ownerId"],
+        "properties": {
+          "id": {
             "type": "string",
-            "description": "ID of the user who owns this agent"
+            "description": "Unique identifier for the agent"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "Phone number for the agent"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the agent"
+          },
+          "systemPrompt": {
+            "type": "string",
+            "description": "System prompt for the agent"
+          },
+          "scenarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScenarioWithIncludes"
+            },
+            "description": "Array of scenarios associated with the agent"
+          },
+          "tests": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                { "$ref": "#/components/schemas/Test" },
+                {
+                  "type": "object",
+                  "properties": {
+                    "calls": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Call"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "description": "Array of tests with their associated calls"
+          },
+          "enabledTestAgents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TestAgent"
+            },
+            "description": "Array of enabled test agents"
+          },
+          "generalEvaluations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GeneralEvaluationWithIncludes"
+            },
+            "description": "Array of general evaluations with includes"
           }
         }
       },
@@ -1339,7 +1398,7 @@
           "evaluations": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Evaluation"
+              "$ref": "#/components/schemas/ScenarioEvaluationInput"
             },
             "minItems": 1
           }
@@ -1440,21 +1499,92 @@
           }
         }
       },
+
       "EvaluationInput": {
         "type": "object",
-        "required": ["name", "description", "evaluationGroupId"],
+        "required": ["evaluationTemplateId"],
         "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name of the evaluation input"
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether the evaluation is enabled",
+            "default": true
           },
-          "description": {
+          "isCritical": {
+            "type": "boolean",
+            "description": "Whether this is a critical evaluation",
+            "default": true
+          },
+          "params": {
+            "type": "object",
+            "description": "JSON parameters for the evaluation",
+            "default": {},
+            "additionalProperties": true
+          },
+          "evaluationTemplateId": {
             "type": "string",
-            "description": "Description of the evaluation input"
+            "description": "ID of the associated evaluation template"
+          },
+          "scenarioId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional ID of the associated scenario"
           },
           "evaluationGroupId": {
             "type": "string",
-            "description": "ID of the associated evaluation group"
+            "nullable": true,
+            "description": "Optional ID of the associated evaluation group"
+          }
+        }
+      },
+      "ScenarioEvaluationInput": {
+        "type": "object",
+        "required": ["evaluationTemplateId"],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether the evaluation is enabled",
+            "default": true
+          },
+          "isCritical": {
+            "type": "boolean",
+            "description": "Whether this is a critical evaluation",
+            "default": true
+          },
+          "params": {
+            "type": "object",
+            "description": "JSON parameters for the evaluation",
+            "default": {},
+            "additionalProperties": true
+          },
+          "evaluationTemplateId": {
+            "type": "string",
+            "description": "ID of the associated evaluation template"
+          }
+        }
+      },
+      "SavedSearchEvaluationInput": {
+        "type": "object",
+        "required": ["evaluationTemplateId"],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether the evaluation is enabled",
+            "default": true
+          },
+          "isCritical": {
+            "type": "boolean",
+            "description": "Whether this is a critical evaluation",
+            "default": true
+          },
+          "params": {
+            "type": "object",
+            "description": "JSON parameters for the evaluation",
+            "default": {},
+            "additionalProperties": true
+          },
+          "evaluationTemplateId": {
+            "type": "string",
+            "description": "ID of the associated evaluation template"
           }
         }
       },
@@ -1485,6 +1615,113 @@
             "description": "ID of the associated evaluation group"
           }
         }
+      },
+      "ScenarioWithIncludes": {
+        "type": "object",
+        "allOf": [
+          { "$ref": "#/components/schemas/Scenario" },
+          {
+            "type": "object",
+            "properties": {
+              "evaluations": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EvaluationWithIncludes"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "Test": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the test"
+          },
+          "calls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Call"
+            }
+          }
+        }
+      },
+      "Call": {
+        "type": "object",
+        "required": ["id", "result", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the call"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["in_progress", "analyzing", "completed"],
+            "description": "Status of the call"
+          },
+          "result": {
+            "type": "string",
+            "enum": ["success", "failure"],
+            "description": "Result of the call"
+          }
+        }
+      },
+      "TestAgent": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the test agent"
+          }
+        }
+      },
+      "GeneralEvaluationWithIncludes": {
+        "type": "object",
+        "allOf": [
+          { "$ref": "#/components/schemas/GeneralEvaluation" },
+          {
+            "type": "object",
+            "properties": {
+              "evaluation": {
+                "$ref": "#/components/schemas/EvaluationWithIncludes"
+              }
+            }
+          }
+        ]
+      },
+      "EvaluationWithIncludes": {
+        "type": "object",
+        "allOf": [
+          { "$ref": "#/components/schemas/Evaluation" },
+          {
+            "type": "object",
+            "properties": {
+              "evaluationTemplate": {
+                "$ref": "#/components/schemas/EvaluationTemplate"
+              },
+              "params": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "GeneralEvaluation": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the general evaluation"
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -1494,4 +1731,4 @@
       }
     }
   }
-              }
+}
