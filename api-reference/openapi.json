@@ -412,11 +412,11 @@
                   },
                   "agentId": {
                     "type": "string",
-                    "description": "the id of the agent associated with the call. this is used to identify which calls came from which agent. it can be your internal agent id."
+                    "description": "the ID of the agent associated with the call. this is used to identify which calls came from which agent. it can be your internal agent ID."
                   },
                   "stereoRecordingUrl": {
                     "type": "string",
-                    "description": "URL where the stereo call recording is stored. recordings must be two channel audio files with the caller on the left channel and your agent on the right channel. it can either be a presigned url or a public url to a file in your storage bucket"
+                    "description": "URL where the stereo call recording is stored. it can either be a presigned url or a public url to a file in your storage bucket. recordings must be two channel audio files with the caller on the left channel and your agent on the right channel."
                   },
                   "saveRecording": {
                     "type": "boolean",
