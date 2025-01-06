@@ -93,6 +93,8 @@
     }
   }
 },
+
+
 "/alerts/{id}": {
   "put": {
     "tags": ["alerts"],
