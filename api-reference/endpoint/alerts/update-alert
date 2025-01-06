@@ -1,0 +1,5 @@
+---
+title: "update alert"
+openapi: "PUT /alerts/{alertId}"
+description: "update an alert"
+---

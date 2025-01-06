@@ -20,7 +20,7 @@
   "paths": {
     "/agents": {
       "get": {
-        "tags": ["agent"],
+        "tags": ["agents"],
         "operationId": "listAgents",
         "description": "Get all agents for the authenticated user",
         "responses": {
@@ -59,7 +59,7 @@
         }
       },
       "post": {
-        "tags": ["agent"],
+        "tags": ["agents"],
         "operationId": "createAgent",
         "description": "Create a new agent",
         "requestBody": {
@@ -127,7 +127,7 @@
     },
     "/agents/{id}": {
       "get": {
-        "tags": ["agent"],
+        "tags": ["agents"],
         "operationId": "getAgent",
         "description": "Get a single agent by ID",
         "parameters": [
@@ -183,7 +183,7 @@
         }
       },
       "put": {
-        "tags": ["agent"],
+        "tags": ["agents"],
         "operationId": "updateAgent",
         "description": "Update an agent",
         "parameters": [
@@ -521,7 +521,7 @@
     },
     "/scenarios/{agentId}": {
       "get": {
-        "tags": ["scenario"],
+        "tags": ["scenarios"],
         "operationId": "getScenarios",
         "description": "Get all scenarios for an agent",
         "parameters": [
@@ -570,7 +570,7 @@
         }
       },
       "post": {
-        "tags": ["scenario"],
+        "tags": ["scenarios"],
         "operationId": "createScenario",
         "description": "Create a new scenario",
         "parameters": [
@@ -638,7 +638,7 @@
     },
     "/scenarios/{id}": {
       "put": {
-        "tags": ["scenario"],
+        "tags": ["scenarios"],
         "operationId": "updateScenario",
         "description": "Update a scenario",
         "parameters": [
@@ -1238,6 +1238,47 @@
           }
         }
       }
+    },
+    "/alerts": {
+      "get": {
+        "tags": ["alert"],
+        "operationId": "getAlerts",
+        "description": "Get all alerts for a user",
+        "responses": {
+          "200": {
+            "description": "Alerts retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "alerts"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "alerts": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AlertWithDetails"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1749,6 +1790,98 @@
           "id": {
             "type": "string",
             "description": "Unique identifier for the general evaluation"
+          }
+        }
+      },
+      "AlertWithDetails": {
+        "type": "object",
+        "required": ["id", "type", "details", "savedSearchId"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the alert"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["latency", "evalSet"]
+          },
+          "details": {
+            "oneOf": [
+              { "$ref": "#/components/schemas/LatencyAlertDetails" },
+              { "$ref": "#/components/schemas/EvalSetAlertDetails" }
+            ]
+          },
+          "savedSearchId": {
+            "type": "string",
+            "description": "ID of the associated saved search"
+          }
+        }
+      },
+      "LatencyAlertDetails": {
+        "type": "object",
+        "required": [
+          "lookbackPeriod",
+          "cooldownPeriod",
+          "lastAlerted",
+          "percentile",
+          "threshold"
+        ],
+        "properties": {
+          "lookbackPeriod": {
+            "type": "object",
+            "required": ["label", "value"],
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "Human readable period label"
+              },
+              "value": {
+                "type": "number",
+                "description": "Period value in milliseconds"
+              }
+            }
+          },
+          "cooldownPeriod": {
+            "type": "object",
+            "required": ["label", "value"],
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "Human readable period label"
+              },
+              "value": {
+                "type": "number",
+                "description": "Period value in milliseconds"
+              }
+            }
+          },
+          "lastAlerted": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last time this alert was triggered"
+          },
+          "percentile": {
+            "type": "string",
+            "enum": ["p50", "p90", "p95"],
+            "description": "Percentile threshold for latency"
+          },
+          "threshold": {
+            "type": "number",
+            "description": "Latency threshold in milliseconds"
+          }
+        }
+      },
+      "EvalSetAlertDetails": {
+        "type": "object",
+        "required": ["evaluationGroupId", "trigger"],
+        "properties": {
+          "evaluationGroupId": {
+            "type": "string",
+            "description": "ID of the evaluation group"
+          },
+          "trigger": {
+            "type": ["boolean", "null"],
+            "description": "Trigger condition for the eval set"
           }
         }
       }

@@ -1,0 +1,5 @@
+---
+title: "get alerts"
+openapi: "GET /alerts"
+description: "get all alerts"
+---

@@ -67,7 +67,16 @@
         "api-reference/endpoint/scenarios/update-scenario",
         "api-reference/endpoint/scenarios/delete-scenario"
       ]
-    }, 
+    },
+    {
+      "group": "alerts",
+      "pages": [
+        "api-reference/endpoint/alerts/create-alert",
+        "api-reference/endpoint/alerts/update-alert",
+        "api-reference/endpoint/alerts/get-alerts",
+        "api-reference/endpoint/alerts/delete-alert"
+      ]
+    },
     {
       "group": "observability",
       "pages": [

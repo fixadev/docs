@@ -1,0 +1,5 @@
+---
+title: "create alert"
+openapi: "POST /alerts/{savedSearchId}"
+description: "create a new alert"
+---
