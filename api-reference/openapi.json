@@ -404,11 +404,11 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["stereoRecordingUrl", "agentId"],
+                "required": ["stereoRecordingUrl", "agentId", "callId"],
                 "properties": {
                   "callId": {
                     "type": "string",
-                    "description": "unique identifier for the call, if you do not provide one, fixa will generate one for you"
+                    "description": "unique identifier for the call"
                   },
                   "agentId": {
                     "type": "string",
@@ -1731,12 +1731,6 @@
             "properties": {
               "evaluationTemplate": {
                 "$ref": "#/components/schemas/EvaluationTemplate"
-              },
-              "params": {
-                "type": "object",
-                "additionalProperties": {
-                  "type": "string"
-                }
               }
             }
           }
