@@ -18,381 +18,6 @@
     }
   ],
   "paths": {
-    "/agents": {
-      "get": {
-        "tags": ["agent"],
-        "operationId": "listAgents",
-        "description": "Get all agents for the authenticated user",
-        "responses": {
-          "200": {
-            "description": "Agents retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["success", "agents"],
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "agents": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Agent"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": ["agent"],
-        "operationId": "createAgent",
-        "description": "Create a new agent",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["phoneNumber", "name", "systemPrompt"],
-                "properties": {
-                  "phoneNumber": {
-                    "type": "string",
-                    "description": "Phone number for the agent",
-                    "pattern": "^\\+?[\\d\\s-()]+$"
-                  },
-                  "name": {
-                    "type": "string",
-                    "description": "Name of the agent",
-                    "minLength": 2,
-                    "maxLength": 50
-                  },
-                  "systemPrompt": {
-                    "type": "string",
-                    "description": "System prompt for the agent",
-                    "minLength": 10,
-                    "maxLength": 2000
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Agent created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["success", "agent"],
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "agent": {
-                      "$ref": "#/components/schemas/Agent"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/agents/{id}": {
-      "get": {
-        "tags": ["agent"],
-        "operationId": "getAgent",
-        "description": "Get a single agent by ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Agent retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["success", "agent"],
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "agent": {
-                      "$ref": "#/components/schemas/AgentWithIncludes"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Agent not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": ["agent"],
-        "operationId": "updateAgent",
-        "description": "Update an agent",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["phoneNumber", "name", "systemPrompt"],
-                "properties": {
-                  "phoneNumber": {
-                    "type": "string",
-                    "description": "Phone number for the agent",
-                    "pattern": "^\\+?[\\d\\s-()]+$"
-                  },
-                  "name": {
-                    "type": "string",
-                    "description": "Name of the agent",
-                    "minLength": 2,
-                    "maxLength": 50
-                  },
-                  "systemPrompt": {
-                    "type": "string",
-                    "description": "System prompt for the agent",
-                    "minLength": 10,
-                    "maxLength": 2000
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Agent updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["success", "agent"],
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "agent": {
-                      "$ref": "#/components/schemas/AgentWithIncludes"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": ["agent"],
-        "operationId": "deleteAgent",
-        "description": "delete an agent",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "agent deleted successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["success"],
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/tests": {
-      "post": {
-        "tags": ["tests"],
-        "operationId": "createTest",
-        "description": "creates a new test",
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TestParams"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "test created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["testId"],
-                  "properties": {
-                    "testId": {
-                      "type": "string",
-                      "description": "the id of the test"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/tests/{testId}/status": {
-      "get": {
-        "tags": ["tests"],
-        "operationId": "getTestStatus",
-        "parameters": [
-          {
-            "name": "testId",
-            "in": "path",
-            "required": true,
-            "description": "the id of the test",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "description": "retrieves the status of a test",
-        "responses": {
-          "200": {
-            "description": "test status retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["status"],
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "enum": ["completed", "in_progress", "not_found"],
-                      "description": "the status of the test"
-                    },
-                    "calls": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Call"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/upload-call": {
       "post": {
         "tags": ["calls"],
@@ -519,282 +144,6 @@
         }
       }
     },
-    "/scenarios/{agentId}": {
-      "get": {
-        "tags": ["scenario"],
-        "operationId": "getScenarios",
-        "description": "Get all scenarios for an agent",
-        "parameters": [
-          {
-            "name": "agentId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Scenarios retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["success", "scenarios"],
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "scenarios": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Scenario"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": ["scenario"],
-        "operationId": "createScenario",
-        "description": "Create a new scenario",
-        "parameters": [
-          {
-            "name": "agentId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ScenarioInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Scenario created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["success", "scenario"],
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "scenario": {
-                      "$ref": "#/components/schemas/Scenario"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/scenarios/{id}": {
-      "put": {
-        "tags": ["scenario"],
-        "operationId": "updateScenario",
-        "description": "Update a scenario",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ScenarioInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Scenario updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["success", "scenario"],
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "scenario": {
-                      "$ref": "#/components/schemas/Scenario"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Scenario not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "description": "delete a scenario",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Scenario deleted successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["success"],
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Scenario not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/evaluations/general": {
-      "get": {
-        "description": "Get general evaluations",
-        "responses": {
-          "200": {
-            "description": "General evaluations retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Evaluation"
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/evaluations/templates": {
       "get": {
         "description": "Get evaluation templates",
@@ -823,9 +172,7 @@
             }
           }
         }
-      }
-    },
-    "/evaluations/template": {
+      },
       "post": {
         "description": "Create evaluation template",
         "requestBody": {
@@ -862,7 +209,42 @@
         }
       }
     },
-    "/evaluations/template/{id}": {
+    "/evaluations/templates/{id}": {
+      "get": {
+        "description": "get evaluation template",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "evaluation template retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationTemplate"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
       "put": {
         "description": "update evaluation template",
         "parameters": [
@@ -907,9 +289,72 @@
             }
           }
         }
+      },
+      "delete": {
+        "description": "delete evaluation template",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Template deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationTemplate"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/evaluations": {
+      "get": {
+        "description": "get evaluations",
+        "responses": {
+          "200": {
+            "description": "evaluations retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Evaluation"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "description": "Create evaluation",
         "requestBody": {
@@ -947,6 +392,41 @@
       }
     },
     "/evaluations/{id}": {
+      "get": {
+        "description": "get evaluation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "evaluation retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Evaluation"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
       "put": {
         "description": "Update evaluation",
         "parameters": [
@@ -1028,62 +508,6 @@
         }
       }
     },
-    "/evaluations/{id}/toggle": {
-      "patch": {
-        "description": "Toggle evaluation enabled status",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["enabled"],
-                "properties": {
-                  "enabled": {
-                    "type": "boolean"
-                  },
-                  "agentId": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Evaluation status toggled successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Evaluation"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/evaluations/groups": {
       "get": {
         "description": "Get evaluation groups",
@@ -1112,9 +536,7 @@
             }
           }
         }
-      }
-    },
-    "/evaluations/group": {
+      },
       "post": {
         "description": "Create evaluation group",
         "requestBody": {
@@ -1151,7 +573,42 @@
         }
       }
     },
-    "/evaluations/group/{id}": {
+    "/evaluations/groups/{id}": {
+      "get": {
+        "description": "Get evaluation group",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Evaluation group retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationGroup"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
       "put": {
         "description": "Update evaluation group",
         "parameters": [
@@ -1238,10 +695,731 @@
           }
         }
       }
+    },
+    "/searches": {
+      "get": {
+        "tags": ["searches"],
+        "operationId": "listSearches",
+        "description": "Get all saved searches for the authenticated user",
+        "parameters": [
+          {
+            "name": "includeDefault",
+            "in": "query",
+            "description": "Whether to include default searches",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Searches retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "searches"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "searches": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SavedSearchWithIncludes"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["searches"],
+        "operationId": "createSearch",
+        "description": "Create a new saved search",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "filter"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the saved search"
+                  },
+                  "filter": {
+                    "type": "object",
+                    "description": "Search filter criteria",
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Search created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "search"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "search": {
+                      "$ref": "#/components/schemas/SavedSearchWithIncludes"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/searches/default": {
+      "get": {
+        "tags": ["searches"],
+        "operationId": "getDefaultSearch",
+        "description": "Get the default saved search",
+        "responses": {
+          "200": {
+            "description": "Default search retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "search"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "search": {
+                      "$ref": "#/components/schemas/SavedSearchWithIncludes"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/searches/{id}": {
+      "get": {
+        "tags": ["searches"],
+        "operationId": "getSearch",
+        "description": "Get a specific saved search",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "search"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "search": {
+                      "$ref": "#/components/schemas/SavedSearchWithIncludes"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Search not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["searches"],
+        "operationId": "updateSearch",
+        "description": "Update a saved search",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SavedSearchWithIncludes"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Search updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "search"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "search": {
+                      "$ref": "#/components/schemas/SavedSearchWithIncludes"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["searches"],
+        "operationId": "deleteSearch",
+        "description": "Delete a saved search",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts": {
+      "get": {
+        "tags": ["alerts"],
+        "operationId": "listAlerts",
+        "description": "Get all alerts for the authenticated user",
+        "responses": {
+          "200": {
+            "description": "Alerts retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "alerts"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "alerts": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AlertWithDetails"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/{id}": {
+      "get": {
+        "tags": ["alerts"],
+        "operationId": "getAlert",
+        "description": "Get an existing alert",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alert retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertWithDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Alert not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["alerts"],
+        "operationId": "updateAlert",
+        "description": "Update an existing alert",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertWithDetails"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Alert updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "alert"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "alert": {
+                      "$ref": "#/components/schemas/AlertWithDetails"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Alert not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["alerts"],
+        "operationId": "deleteAlert",
+        "description": "Delete an alert",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alert deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Alert not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/{savedSearchId}": {
+      "post": {
+        "tags": ["alerts"],
+        "operationId": "createAlert",
+        "description": "Create a new alert for a saved search",
+        "parameters": [
+          {
+            "name": "savedSearchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the saved search. If not provided, will use default saved search."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAlert"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Alert created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "alert"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "alert": {
+                      "$ref": "#/components/schemas/AlertWithDetails"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AlertWithDetails": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "details",
+          "ownerId",
+          "savedSearchId",
+          "slackNames"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the alert"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["latency", "evalSet"]
+          },
+          "details": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LatencyAlertDetails"
+              },
+              {
+                "$ref": "#/components/schemas/EvalSetAlertDetails"
+              }
+            ]
+          },
+          "savedSearchId": {
+            "type": "string",
+            "description": "ID of the associated saved search"
+          },
+          "slackNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Slack usernames to notify",
+            "default": []
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "ID of the alert owner"
+          }
+        }
+      },
+      "LatencyAlertDetails": {
+        "type": "object",
+        "required": [
+          "lookbackPeriod",
+          "cooldownPeriod",
+          "lastAlerted",
+          "percentile",
+          "threshold"
+        ],
+        "properties": {
+          "lookbackPeriod": {
+            "type": "object",
+            "required": ["label", "value"],
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "Human readable period label"
+              },
+              "value": {
+                "type": "number",
+                "description": "Period value in milliseconds"
+              }
+            }
+          },
+          "cooldownPeriod": {
+            "type": "object",
+            "required": ["label", "value"],
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "Human readable period label"
+              },
+              "value": {
+                "type": "number",
+                "description": "Period value in milliseconds"
+              }
+            }
+          },
+          "lastAlerted": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last time this alert was triggered"
+          },
+          "percentile": {
+            "type": "string",
+            "enum": ["p50", "p90", "p95"],
+            "description": "Percentile threshold for latency"
+          },
+          "threshold": {
+            "type": "number",
+            "description": "Latency threshold in milliseconds"
+          }
+        }
+      },
+      "EvalSetAlertDetails": {
+        "type": "object",
+        "required": ["evaluationGroupId", "trigger"],
+        "properties": {
+          "evaluationGroupId": {
+            "type": "string",
+            "description": "ID of the evaluation group"
+          },
+          "trigger": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Trigger condition for the eval set"
+          }
+        }
+      },
+      "CreateAlert": {
+        "type": "object",
+        "required": ["type", "details"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["latency", "evalSet"],
+            "description": "Type of alert"
+          },
+          "details": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LatencyAlertDetails"
+              },
+              {
+                "$ref": "#/components/schemas/EvalSetAlertDetails"
+              }
+            ]
+          }
+        }
+      },
       "ErrorResponse": {
         "type": "object",
         "required": ["success", "error"],
@@ -1253,30 +1431,6 @@
           "error": {
             "type": "string",
             "description": "Error message"
-          }
-        }
-      },
-      "TestParams": {
-        "required": ["agentId"],
-        "type": "object",
-        "properties": {
-          "agentId": {
-            "type": "string",
-            "description": "the id of your fixa agent"
-          },
-          "scenarioIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "array of specific scenarios to test. leave it blank to test all scenarios"
-          },
-          "personaIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "array of personas that will call your agent. leave it blank to use all personas"
           }
         }
       },
@@ -1294,91 +1448,6 @@
             "type": "string",
             "enum": ["success", "failure"],
             "description": "the result of the call"
-          }
-        }
-      },
-      "Agent": {
-        "type": "object",
-        "required": ["id", "phoneNumber", "name", "systemPrompt", "ownerId"],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the agent"
-          },
-          "phoneNumber": {
-            "type": "string",
-            "description": "Phone number for the agent"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the agent"
-          },
-          "systemPrompt": {
-            "type": "string",
-            "description": "System prompt for the agent"
-          }
-        }
-      },
-      "AgentWithIncludes": {
-        "type": "object",
-        "required": ["id", "phoneNumber", "name", "systemPrompt", "ownerId"],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the agent"
-          },
-          "phoneNumber": {
-            "type": "string",
-            "description": "Phone number for the agent"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the agent"
-          },
-          "systemPrompt": {
-            "type": "string",
-            "description": "System prompt for the agent"
-          },
-          "scenarios": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ScenarioWithIncludes"
-            },
-            "description": "Array of scenarios associated with the agent"
-          },
-          "tests": {
-            "type": "array",
-            "items": {
-              "allOf": [
-                { "$ref": "#/components/schemas/Test" },
-                {
-                  "type": "object",
-                  "properties": {
-                    "calls": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Call"
-                      }
-                    }
-                  }
-                }
-              ]
-            },
-            "description": "Array of tests with their associated calls"
-          },
-          "enabledTestAgents": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TestAgent"
-            },
-            "description": "Array of enabled test agents"
-          },
-          "generalEvaluations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GeneralEvaluationWithIncludes"
-            },
-            "description": "Array of general evaluations with includes"
           }
         }
       },
@@ -1743,6 +1812,29 @@
           "id": {
             "type": "string",
             "description": "Unique identifier for the general evaluation"
+          }
+        }
+      },
+      "SavedSearchWithIncludes": {
+        "type": "object",
+        "required": ["id", "name", "filter", "ownerId"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the saved search"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the saved search"
+          },
+          "filter": {
+            "type": "object",
+            "description": "Search filter criteria",
+            "additionalProperties": true
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "ID of the search owner"
           }
         }
       }

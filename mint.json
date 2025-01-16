@@ -39,39 +39,61 @@
   "navigation": [
     { "group": "get started", "pages": ["introduction"] },
     {
-      "group": "guides",
-      "pages": ["guides/github-actions"]
+      "group": "calls",
+      "pages": ["api-reference/endpoint/upload-call"]
     },
     {
-      "group": "agents",
+      "group": "evaluations",
       "pages": [
-        "api-reference/endpoint/agents/get-agents",
-        "api-reference/endpoint/agents/get-agent",
-        "api-reference/endpoint/agents/create-agent",
-        "api-reference/endpoint/agents/update-agent",
-        "api-reference/endpoint/agents/delete-agent"
+        {
+          "group": "templates",
+          "pages": [
+            "api-reference/endpoint/evaluations/templates/list-templates",
+            "api-reference/endpoint/evaluations/templates/create-template",
+            "api-reference/endpoint/evaluations/templates/get-template",
+            "api-reference/endpoint/evaluations/templates/update-template",
+            "api-reference/endpoint/evaluations/templates/delete-template"
+          ]
+        },
+        {
+          "group": "evaluations",
+          "pages": [
+            "api-reference/endpoint/evaluations/evaluations/list-evaluations",
+            "api-reference/endpoint/evaluations/evaluations/get-evaluation",
+            "api-reference/endpoint/evaluations/evaluations/create-evaluation",
+            "api-reference/endpoint/evaluations/evaluations/update-evaluation",
+            "api-reference/endpoint/evaluations/evaluations/delete-evaluation"
+          ]
+        },
+        {
+          "group": "groups",
+          "pages": [
+            "api-reference/endpoint/evaluations/groups/list-groups",
+            "api-reference/endpoint/evaluations/groups/create-group",
+            "api-reference/endpoint/evaluations/groups/get-group",
+            "api-reference/endpoint/evaluations/groups/update-group",
+            "api-reference/endpoint/evaluations/groups/delete-group"
+          ]
+        }
       ]
     },
     {
-      "group": "tests",
+      "group": "searches",
       "pages": [
-        "api-reference/endpoint/tests/create-test",
-        "api-reference/endpoint/tests/get-test-status"
+        "api-reference/endpoint/searches/list-searches",
+        "api-reference/endpoint/searches/get-search",
+        "api-reference/endpoint/searches/create-search",
+        "api-reference/endpoint/searches/delete-search"
       ]
     },
     {
-      "group": "scenarios",
+      "group": "alerts",
       "pages": [
-        "api-reference/endpoint/scenarios/get-scenarios",
-        "api-reference/endpoint/scenarios/create-scenario",
-        "api-reference/endpoint/scenarios/update-scenario",
-        "api-reference/endpoint/scenarios/delete-scenario"
-      ]
-    }, 
-    {
-      "group": "observability",
-      "pages": [
-        "api-reference/endpoint/upload-call"
+        "api-reference/endpoint/alerts/list-alerts",
+        "api-reference/endpoint/alerts/get-alert",
+        "api-reference/endpoint/alerts/create-alert",
+        "api-reference/endpoint/alerts/update-alert",
+        "api-reference/endpoint/alerts/delete-alert"
       ]
     }
   ],
