@@ -78,7 +78,7 @@
       ]
     },
     {
-      "group": "searches",
+      "group": "saved searches",
       "pages": [
         "api-reference/endpoint/searches/list-searches",
         "api-reference/endpoint/searches/get-search",
