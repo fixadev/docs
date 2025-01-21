@@ -1,0 +1,99 @@
+---
+title: TestRunner
+description: "executes tests by managing the test server and collecting results"
+---
+
+## overview
+
+the `TestRunner` class is responsible for executing tests by managing the test server, making calls, and collecting results. it coordinates the entire testing process.
+
+## constructor
+
+```python
+TestRunner(
+    port: int,
+    ngrok_url: str,
+    twilio_phone_number: str,
+    evaluator: BaseEvaluator | None = None
+)
+```
+
+### parameters
+
+- `port` (int): the port to run the test server on
+- `ngrok_url` (str): the ngrok url for external access to the test server
+- `twilio_phone_number` (str): the phone number to use as the "from" number for outbound test calls
+- `evaluator` (BaseEvaluator | None, optional): the evaluator to use for assessing test results. defaults to none.
+
+## constants
+
+- `INBOUND`: Constant for inbound call type
+- `OUTBOUND`: Constant for outbound call type
+
+## methods
+
+### add_test()
+
+adds a test to the test runner.
+
+```python
+def add_test(self, test: Test)
+```
+
+### run_tests()
+
+runs all added tests and returns the results.
+
+```python
+async def run_tests(
+    phone_number: str,
+    type: str = OUTBOUND
+) -> List[TestResult]
+```
+
+#### parameters
+
+- `phone_number` (str): the phone number to call or receive calls from
+- `type` (str, optional): the type of calls to make (INBOUND or OUTBOUND). defaults to OUTBOUND.
+
+#### returns
+
+- List[TestResult]: the results of all executed tests
+
+## example usage
+
+```python
+# initialize test runner
+test_runner = TestRunner(
+    port=8765,
+    ngrok_url=listener.url(),
+    twilio_phone_number=TWILIO_PHONE_NUMBER,
+    evaluator=LocalEvaluator()
+)
+
+# add tests
+test_runner.add_test(test1)
+test_runner.add_test(test2)
+
+# run tests
+test_results = await test_runner.run_tests(
+    phone_number=PHONE_NUMBER_TO_CALL,
+    type=TestRunner.OUTBOUND
+)
+```
+
+## features
+
+- manages a fastapi server for handling calls
+- coordinates with twilio for making/receiving calls
+- executes multiple tests in parallel
+- collects and evaluates test results
+- supports both inbound and outbound testing
+
+## notes
+
+- requires environment variables for various api keys (twilio, openai, etc.)
+- uses ngrok for exposing the local server to the internet
+- can run multiple tests simultaneously
+- supports different types of evaluators (local/cloud)
+- handles test execution, result collection, and cleanup

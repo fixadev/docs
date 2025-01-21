@@ -1,0 +1,55 @@
+---
+title: Scenario
+description: "defines what the test agent should do when calling your voice agent"
+---
+
+## overview
+
+the `Scenario` class represents a test scenario that defines what the test agent should do when calling your voice agent. it includes a prompt for the agent's behavior and a set of evaluation criteria to assess the interaction.
+
+## constructor
+
+```python
+Scenario(
+    name: str,
+    prompt: str,
+    evaluations: List[Evaluation] = []
+)
+```
+
+### parameters
+
+- `name` (str): the name of the scenario
+- `prompt` (str): the system prompt that defines what the agent should do in this scenario
+- `evaluations` (List[Evaluation], optional): list of evaluation criteria to assess the scenario. defaults to an empty list.
+
+## methods
+
+### to_dict()
+
+converts the scenario to a dictionary format, useful for serialization.
+
+```python
+def to_dict(self) -> dict
+```
+
+returns a dictionary containing the scenario's name, prompt, and evaluations.
+
+## example usage
+
+```python
+scenario = Scenario(
+    name="order_donut",
+    prompt="order a dozen donuts with sprinkles and a coffee",
+    evaluations=[
+        Evaluation(name="order_success", prompt="the order was successful"),
+        Evaluation(name="price_confirmed", prompt="the agent confirmed the price of the order"),
+    ]
+)
+```
+
+## notes
+
+- the scenario prompt should clearly define the task or interaction you want to test
+- each scenario can have multiple evaluation criteria to assess different aspects of the interaction
+- scenarios are used in combination with agents to create tests

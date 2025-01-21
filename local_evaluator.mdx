@@ -1,0 +1,63 @@
+---
+title: LocalEvaluator
+description: "evaluates call transcripts locally using openai's gpt models"
+---
+
+## overview
+
+the `LocalEvaluator` class is an implementation of the `BaseEvaluator` that evaluates call transcripts locally using openai's gpt models. it assesses the interaction against the scenario's evaluation criteria.
+
+## constructor
+
+```python
+LocalEvaluator(
+    model: str = "gpt-4o"
+)
+```
+
+### parameters
+
+- `model` (str, optional): the openai model to use for evaluation. defaults to "gpt-4o".
+
+## methods
+
+### evaluate()
+
+evaluates a call transcript against the scenario's evaluation criteria.
+
+```python
+async def evaluate(
+    scenario: Scenario,
+    transcript: List[ChatCompletionMessageParam],
+    stereo_recording_url: str
+) -> Optional[EvaluationResponse]
+```
+
+#### parameters
+
+- `scenario` (Scenario): the scenario to evaluate
+- `transcript` (List[ChatCompletionMessageParam]): the transcript of the call
+- `stereo_recording_url` (str): url of the stereo recording of the call (not used in local evaluation)
+
+#### returns
+
+- `Optional[EvaluationResponse]`: the evaluation results, containing a list of evaluation results and any extra data
+
+## example usage
+
+```python
+evaluator = LocalEvaluator()
+test_runner = TestRunner(
+    port=port,
+    ngrok_url=listener.url(),
+    twilio_phone_number=TWILIO_PHONE_NUMBER,
+    evaluator=evaluator
+)
+```
+
+## notes
+
+- requires an openai api key to be set in the environment variables
+- evaluates transcripts using gpt models without requiring any external service
+- suitable for development and testing when you don't need advanced analytics
+- does not analyze audio or provide a web interface for results

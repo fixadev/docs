@@ -38,6 +38,19 @@
   "anchors": [],
   "navigation": [
     { "group": "get started", "pages": ["introduction", "quickstart"] },
+    {
+      "group": "classes",
+      "pages": [
+        "agent",
+        "scenario",
+        {
+          "group": "Evaluators",
+          "pages": ["local_evaluator", "cloud_evaluator"]
+        },
+        "test",
+        "test_runner"
+      ]
+    },
     { "group": "get started", "pages": ["fixa-observe/introduction"] },
     {
       "group": "calls",

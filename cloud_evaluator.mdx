@@ -1,0 +1,71 @@
+---
+title: CloudEvaluator
+description: "evaluates calls using the fixa-observe cloud service"
+---
+
+## overview
+
+the `CloudEvaluator` class is an implementation of the `BaseEvaluator` that evaluates calls using the fixa-observe cloud service. it provides advanced analytics and a web interface for visualizing results.
+
+## constructor
+
+```python
+CloudEvaluator(
+    api_key: str
+)
+```
+
+### parameters
+
+- `api_key` (str): the fixa-observe api key required for cloud evaluation
+
+## methods
+
+### evaluate()
+
+evaluates a call using the fixa-observe service.
+
+```python
+async def evaluate(
+    scenario: Scenario,
+    transcript: List[ChatCompletionMessageParam],
+    stereo_recording_url: str
+) -> Optional[EvaluationResponse]
+```
+
+#### parameters
+
+- `scenario` (Scenario): the scenario to evaluate
+- `transcript` (List[ChatCompletionMessageParam]): the transcript of the call
+- `stereo_recording_url` (str): url of the stereo recording to evaluate
+
+#### returns
+
+- `Optional[EvaluationResponse]`: the evaluation results, containing evaluation results and extra data including the fixa-observe call analysis url
+
+## example usage
+
+```python
+evaluator = CloudEvaluator(api_key=os.getenv("FIXA_API_KEY"))
+test_runner = TestRunner(
+    port=port,
+    ngrok_url=listener.url(),
+    twilio_phone_number=TWILIO_PHONE_NUMBER,
+    evaluator=evaluator
+)
+```
+
+## features
+
+- uploads call data to fixa-observe for analysis
+- provides a web interface for visualizing results
+- analyzes both transcript and audio
+- evaluates latency and interruptions
+- generates shareable links to call analysis
+
+## notes
+
+- requires a fixa-observe api key (sign up at https://fixa.dev)
+- provides more comprehensive analysis than the localevaluator
+- suitable for production testing and detailed analysis
+- results are accessible through the fixa-observe web interface
