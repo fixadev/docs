@@ -55,7 +55,10 @@
     { "group": "get started", "pages": ["fixa-observe/introduction"] },
     {
       "group": "calls",
-      "pages": ["fixa-observe/endpoint/upload-call"]
+      "pages": [
+        "fixa-observe/endpoint/calls/get-call",
+        "fixa-observe/endpoint/calls/upload-call"
+      ]
     },
     {
       "group": "evaluations",

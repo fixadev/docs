@@ -18,6 +18,38 @@
     }
   ],
   "paths": {
+    "/calls/{id}": {
+      "get": {
+        "tags": ["calls"],
+        "operationId": "getCall",
+        "description": "get a call by id",
+        "responses": {
+          "200": {
+            "description": "call retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["success", "call"],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "whether the call was retrieved successfully"
+                    },
+                    "call": {
+                      "type": "object",
+                      "nullable": true,
+                      "$ref": "#/components/schemas/CallWithIncludes",
+                      "description": "the retrieved call data, or null if not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/upload-call": {
       "post": {
         "tags": ["calls"],
@@ -1835,6 +1867,422 @@
           "ownerId": {
             "type": "string",
             "description": "ID of the search owner"
+          }
+        }
+      },
+      "CallWithIncludes": {
+        "type": "object",
+        "required": ["id", "createdAt", "status", "stereoRecordingUrl"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the call"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the call was created"
+          },
+          "deleted": {
+            "type": "boolean",
+            "description": "Whether the call has been deleted",
+            "default": false
+          },
+          "vapiCallId": {
+            "type": "string",
+            "nullable": true,
+            "description": "VAPI call identifier"
+          },
+          "ofOneDeviceId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Device identifier"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["in_progress", "analyzing", "completed"],
+            "description": "Current status of the call"
+          },
+          "result": {
+            "type": "string",
+            "enum": ["success", "failure"],
+            "nullable": true,
+            "description": "Result of the call"
+          },
+          "failureReason": {
+            "type": "string",
+            "nullable": true,
+            "description": "Reason for failure if the call failed"
+          },
+          "stereoRecordingUrl": {
+            "type": "string",
+            "description": "URL of the stereo recording"
+          },
+          "monoRecordingUrl": {
+            "type": "string",
+            "nullable": true,
+            "description": "URL of the mono recording"
+          },
+          "startedAt": {
+            "type": "string",
+            "nullable": true,
+            "description": "When the call started"
+          },
+          "endedAt": {
+            "type": "string",
+            "nullable": true,
+            "description": "When the call ended"
+          },
+          "regionId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Region identifier"
+          },
+          "metadata": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true,
+            "description": "Additional metadata for the call"
+          },
+          "timeToFirstWord": {
+            "type": "number",
+            "nullable": true,
+            "description": "Time to first word in seconds"
+          },
+          "latencyP50": {
+            "type": "number",
+            "nullable": true,
+            "description": "50th percentile latency"
+          },
+          "latencyP90": {
+            "type": "number",
+            "nullable": true,
+            "description": "90th percentile latency"
+          },
+          "latencyP95": {
+            "type": "number",
+            "nullable": true,
+            "description": "95th percentile latency"
+          },
+          "interruptionP50": {
+            "type": "number",
+            "nullable": true,
+            "description": "50th percentile interruption"
+          },
+          "interruptionP90": {
+            "type": "number",
+            "nullable": true,
+            "description": "90th percentile interruption"
+          },
+          "interruptionP95": {
+            "type": "number",
+            "nullable": true,
+            "description": "95th percentile interruption"
+          },
+          "numInterruptions": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of interruptions"
+          },
+          "duration": {
+            "type": "number",
+            "nullable": true,
+            "description": "Duration of the call in seconds"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true,
+            "description": "Notes about the call"
+          },
+          "isRead": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Whether the call has been read"
+          },
+          "readBy": {
+            "type": "string",
+            "nullable": true,
+            "description": "User ID of who read the call"
+          },
+          "agentId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the associated agent"
+          },
+          "testId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the associated test"
+          },
+          "testAgentId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the associated test agent"
+          },
+          "scenarioId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the associated scenario"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
+            "description": "Messages associated with the call"
+          },
+          "latencyBlocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LatencyBlock"
+            },
+            "description": "Latency blocks associated with the call"
+          },
+          "interruptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Interruption"
+            },
+            "description": "Interruptions during the call"
+          },
+          "evaluationResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvaluationResult"
+            },
+            "description": "Evaluation results for the call"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CallError"
+            },
+            "description": "Errors associated with the call"
+          },
+          "evalSetToSuccess": {
+            "type": "object",
+            "description": "Evaluation set success mapping",
+            "default": {}
+          }
+        }
+      },
+      "LatencyBlock": {
+        "type": "object",
+        "required": ["id", "secondsFromStart", "duration", "callId"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the latency block"
+          },
+          "secondsFromStart": {
+            "type": "number",
+            "description": "Number of seconds from the start of the call when this latency block occurred"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Duration of the latency block in seconds"
+          },
+          "callId": {
+            "type": "string",
+            "description": "ID of the associated call"
+          }
+        }
+      },
+      "Interruption": {
+        "type": "object",
+        "required": ["id", "secondsFromStart", "duration", "callId", "text"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the interruption"
+          },
+          "secondsFromStart": {
+            "type": "number",
+            "description": "Number of seconds from the start of the call when this interruption occurred"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Duration of the interruption in seconds"
+          },
+          "callId": {
+            "type": "string",
+            "description": "ID of the associated call"
+          },
+          "text": {
+            "type": "string",
+            "description": "Text content of the interruption"
+          }
+        }
+      },
+      "Role": {
+        "type": "string",
+        "enum": ["assistant", "user", "system", "function", "tool"],
+        "description": "The role of the message sender"
+      },
+      "Message": {
+        "type": "object",
+        "required": ["id", "role", "callId"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the message"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role",
+            "description": "Role of the message sender"
+          },
+          "message": {
+            "type": "string",
+            "description": "Content of the message",
+            "default": ""
+          },
+          "time": {
+            "type": "number",
+            "description": "Time of the message",
+            "default": 0
+          },
+          "endTime": {
+            "type": "number",
+            "description": "End time of the message",
+            "default": 0
+          },
+          "secondsFromStart": {
+            "type": "number",
+            "description": "Number of seconds from the start of the call",
+            "default": 0
+          },
+          "duration": {
+            "type": "number",
+            "description": "Duration of the message in seconds",
+            "default": 0
+          },
+          "name": {
+            "type": "string",
+            "description": "Name associated with the message",
+            "default": ""
+          },
+          "result": {
+            "type": "string",
+            "description": "Result of the message",
+            "default": ""
+          },
+          "toolCalls": {
+            "type": "array",
+            "description": "Tool calls associated with the message",
+            "default": [],
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "callId": {
+            "type": "string",
+            "description": "ID of the associated call"
+          }
+        }
+      },
+      "EvalResultType": {
+        "type": "string",
+        "enum": ["manual", "auto"],
+        "description": "Type of evaluation result"
+      },
+      "EvaluationResult": {
+        "type": "object",
+        "required": [
+          "id",
+          "createdAt",
+          "evaluationId",
+          "result",
+          "success",
+          "type",
+          "details"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the evaluation result"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the evaluation result was created"
+          },
+          "callId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the associated call"
+          },
+          "evaluationId": {
+            "type": "string",
+            "description": "ID of the associated evaluation"
+          },
+          "result": {
+            "type": "string",
+            "description": "Result of the evaluation"
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Whether the evaluation was successful"
+          },
+          "secondsFromStart": {
+            "type": "number",
+            "nullable": true,
+            "description": "Number of seconds from the start when this evaluation occurred"
+          },
+          "duration": {
+            "type": "number",
+            "nullable": true,
+            "description": "Duration of the evaluation in seconds"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EvalResultType",
+            "description": "Type of the evaluation result"
+          },
+          "details": {
+            "type": "string",
+            "description": "Detailed information about the evaluation result"
+          },
+          "evaluationTemplateId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the associated evaluation template"
+          }
+        }
+      },
+      "CallError": {
+        "type": "object",
+        "required": [
+          "id",
+          "secondsFromStart",
+          "duration",
+          "description",
+          "callId"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the call error"
+          },
+          "secondsFromStart": {
+            "type": "number",
+            "description": "Number of seconds from the start of the call when this error occurred"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Duration of the error in seconds"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "description": "Type of the error"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the error"
+          },
+          "callId": {
+            "type": "string",
+            "description": "ID of the associated call"
           }
         }
       }
