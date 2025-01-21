@@ -51,7 +51,7 @@ import ngrok, os, asyncio
  async def main(): # define test agent to call your voice agent
  agent = Agent(
  name="jessica",
- prompt="you are a young woman named lily who says 'like' a lot",
+ prompt="you are a young woman named jessica who says 'like' a lot",
  )
 
      # define a scenario to test
@@ -98,5 +98,20 @@ python test.py
 ```
 
 ## view the results
+
+example output in the console
+
+```bash
+✨ All tests completed!
+
+📊 Test Results:
+==================================================
+
+🎯 order_donut (jessica)
+🔊 Recording URL: https://api.twilio.com/XXX
+-- ✅ order_success: The order was successfully placed and confirmed by the user and the assistant.
+-- ❌ price_confirmed: The price of the order was not mentioned or confirmed during the conversation.
+
+```
 
 for more details, check out the [repo](https://github.com/fixadev/fixa), and the [examples](https://github.com/fixadev/fixa/tree/main/examples).
