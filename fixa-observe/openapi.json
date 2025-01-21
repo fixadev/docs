@@ -41,6 +41,10 @@
                       "nullable": true,
                       "$ref": "#/components/schemas/CallWithIncludes",
                       "description": "the retrieved call data, or null if not found"
+                    },
+                    "url": {
+                      "type": "string",
+                      "description": "URL to the call in the dashboard"
                     }
                   }
                 }
