@@ -1,7 +1,7 @@
 ---
 title: quickstart
 description: "run your first test with fixa"
-icon: "clock"
+icon: "rocket"
 ---
 
 ## prepare the environment
@@ -24,7 +24,7 @@ source .venv/bin/activate
 pip install fixa-dev
 ```
 
-## set up your environment variables in an `.env` file
+## set up your environment variables in a `.env` file
 
 ```python .env
 OPENAI_API_KEY=your_openai_api_key
@@ -37,64 +37,65 @@ NGROK_AUTH_TOKEN=your_ngrok_auth_token
 
 ## create a test script:
 
-```python test.py
+```python main.py
 from fixa import Test, Agent, Scenario, Evaluation, TestRunner
 from fixa.evaluators import LocalEvaluator
 from dotenv import load_dotenv
 import ngrok, os, asyncio
 
- load_dotenv(override=True)
+load_dotenv(override=True)
 
- TWILIO_PHONE_NUMBER = "+15554443333" # the twilio phone number to initiate calls from
- PHONE_NUMBER_TO_CALL = "+15554443333" # the phone number to call
+TWILIO_PHONE_NUMBER = "+15554443333" # the twilio phone number to initiate calls from
+PHONE_NUMBER_TO_CALL = "+15554443333" # the phone number to call
 
- async def main(): # define test agent to call your voice agent
- agent = Agent(
- name="jessica",
- prompt="you are a young woman named jessica who says 'like' a lot",
- )
+async def main():
+    # define test agent to call your voice agent
+    agent = Agent(
+        name="jessica",
+        prompt="you are a young woman named lily who says 'like' a lot",
+    )
 
-     # define a scenario to test
-     scenario = Scenario(
-         name="order_donut",
-         prompt="order a dozen donuts with sprinkles and a coffee",
-         # define evaluations to evaluate the scenario after it finishes running
-         evaluations=[
-             Evaluation(name="order_success", prompt="the order was successful"),
-             Evaluation(name="price_confirmed", prompt="the agent confirmed the price of the order"),
-         ],
-     )
+    # define a scenario to test
+    scenario = Scenario(
+        name="order_donut",
+        prompt="order a dozen donuts with sprinkles and a coffee",
+        # define evaluations to evaluate the scenario after it finishes running
+        evaluations=[
+            Evaluation(name="order_success", prompt="the order was successful"),
+            Evaluation(name="price_confirmed", prompt="the agent confirmed the price of the order"),
+        ],
+    )
 
-     # start an ngrok server so twilio can access your local websocket endpoint
-     port = 8765
-     listener = await ngrok.forward(port, authtoken=os.getenv("NGROK_AUTH_TOKEN")) # type: ignore (needed or else python will complain)
+    # start an ngrok server so twilio can access your local websocket endpoint
+    port = 8765
+    listener = await ngrok.forward(port, authtoken=os.getenv("NGROK_AUTH_TOKEN")) # type: ignore (needed or else python will complain)
 
-     # initialize a test runner
-     test_runner = TestRunner(
-         port=port,
-         ngrok_url=listener.url(),
-         twilio_phone_number=TWILIO_PHONE_NUMBER,
-         evaluator=LocalEvaluator(),
-     )
+    # initialize a test runner
+    test_runner = TestRunner(
+        port=port,
+        ngrok_url=listener.url(),
+        twilio_phone_number=TWILIO_PHONE_NUMBER,
+        evaluator=LocalEvaluator(),
+    )
 
-     # add tests to the test runner
-     test = Test(scenario=scenario, agent=agent)
-     test_runner.add_test(test)
+    # add tests to the test runner
+    test = Test(scenario=scenario, agent=agent)
+    test_runner.add_test(test)
 
-     # run the tests!
-     test_results = await test_runner.run_tests(
-         phone_number=PHONE_NUMBER_TO_CALL,
-         type=TestRunner.OUTBOUND,
-     )
+    # run the tests!
+    test_results = await test_runner.run_tests(
+        phone_number=PHONE_NUMBER_TO_CALL,
+        type=TestRunner.OUTBOUND,
+    )
 
- if **name** == "**main**":
- asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
 ```
 
 ## run the test
 
 ```bash
-python test.py
+python main.py
 ```
 
 ## view the results
@@ -112,6 +113,7 @@ example output in the console
 -- ✅ order_success: The order was successfully placed and confirmed by the user and the assistant.
 -- ❌ price_confirmed: The price of the order was not mentioned or confirmed during the conversation.
 
+==================================================
 ```
 
 for more details, check out the [repo](https://github.com/fixadev/fixa), and the [examples](https://github.com/fixadev/fixa/tree/main/examples).

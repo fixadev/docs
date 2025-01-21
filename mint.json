@@ -101,7 +101,8 @@
   "footerSocials": {
     "x": "https://x.com/fixa_dev",
     "github": "https://github.com/fixadev",
-    "linkedin": "https://www.linkedin.com/company/fixadev"
+    "linkedin": "https://www.linkedin.com/company/fixadev",
+    "discord": "https://discord.gg/rT9cYkfybZ"
   },
   "openapi": "./api-reference/openapi.json"
 }
