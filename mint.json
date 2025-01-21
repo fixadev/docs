@@ -27,20 +27,21 @@
   },
   "tabs": [
     {
-      "name": "documentation",
+      "name": "fixa",
       "url": "/"
     },
     {
-      "name": "API reference",
-      "url": "api-reference"
+      "name": "fixa-observe",
+      "url": "fixa-observe"
     }
   ],
   "anchors": [],
   "navigation": [
-    { "group": "get started", "pages": ["introduction"] },
+    { "group": "get started", "pages": ["introduction", "quickstart"] },
+    { "group": "get started", "pages": ["fixa-observe/introduction"] },
     {
       "group": "calls",
-      "pages": ["api-reference/endpoint/upload-call"]
+      "pages": ["fixa-observe/endpoint/upload-call"]
     },
     {
       "group": "evaluations",
@@ -48,31 +49,31 @@
         {
           "group": "templates",
           "pages": [
-            "api-reference/endpoint/evaluations/templates/list-templates",
-            "api-reference/endpoint/evaluations/templates/create-template",
-            "api-reference/endpoint/evaluations/templates/get-template",
-            "api-reference/endpoint/evaluations/templates/update-template",
-            "api-reference/endpoint/evaluations/templates/delete-template"
+            "fixa-observe/endpoint/evaluations/templates/list-templates",
+            "fixa-observe/endpoint/evaluations/templates/create-template",
+            "fixa-observe/endpoint/evaluations/templates/get-template",
+            "fixa-observe/endpoint/evaluations/templates/update-template",
+            "fixa-observe/endpoint/evaluations/templates/delete-template"
           ]
         },
         {
           "group": "evaluations",
           "pages": [
-            "api-reference/endpoint/evaluations/evaluations/list-evaluations",
-            "api-reference/endpoint/evaluations/evaluations/get-evaluation",
-            "api-reference/endpoint/evaluations/evaluations/create-evaluation",
-            "api-reference/endpoint/evaluations/evaluations/update-evaluation",
-            "api-reference/endpoint/evaluations/evaluations/delete-evaluation"
+            "fixa-observe/endpoint/evaluations/evaluations/list-evaluations",
+            "fixa-observe/endpoint/evaluations/evaluations/get-evaluation",
+            "fixa-observe/endpoint/evaluations/evaluations/create-evaluation",
+            "fixa-observe/endpoint/evaluations/evaluations/update-evaluation",
+            "fixa-observe/endpoint/evaluations/evaluations/delete-evaluation"
           ]
         },
         {
           "group": "groups",
           "pages": [
-            "api-reference/endpoint/evaluations/groups/list-groups",
-            "api-reference/endpoint/evaluations/groups/create-group",
-            "api-reference/endpoint/evaluations/groups/get-group",
-            "api-reference/endpoint/evaluations/groups/update-group",
-            "api-reference/endpoint/evaluations/groups/delete-group"
+            "fixa-observe/endpoint/evaluations/groups/list-groups",
+            "fixa-observe/endpoint/evaluations/groups/create-group",
+            "fixa-observe/endpoint/evaluations/groups/get-group",
+            "fixa-observe/endpoint/evaluations/groups/update-group",
+            "fixa-observe/endpoint/evaluations/groups/delete-group"
           ]
         }
       ]
@@ -80,27 +81,27 @@
     {
       "group": "saved searches",
       "pages": [
-        "api-reference/endpoint/searches/list-searches",
-        "api-reference/endpoint/searches/get-search",
-        "api-reference/endpoint/searches/create-search",
-        "api-reference/endpoint/searches/delete-search"
+        "fixa-observe/endpoint/searches/list-searches",
+        "fixa-observe/endpoint/searches/get-search",
+        "fixa-observe/endpoint/searches/create-search",
+        "fixa-observe/endpoint/searches/delete-search"
       ]
     },
     {
       "group": "alerts",
       "pages": [
-        "api-reference/endpoint/alerts/list-alerts",
-        "api-reference/endpoint/alerts/get-alert",
-        "api-reference/endpoint/alerts/create-alert",
-        "api-reference/endpoint/alerts/update-alert",
-        "api-reference/endpoint/alerts/delete-alert"
+        "fixa-observe/endpoint/alerts/list-alerts",
+        "fixa-observe/endpoint/alerts/get-alert",
+        "fixa-observe/endpoint/alerts/create-alert",
+        "fixa-observe/endpoint/alerts/update-alert",
+        "fixa-observe/endpoint/alerts/delete-alert"
       ]
     }
   ],
   "footerSocials": {
     "x": "https://x.com/fixa_dev",
     "github": "https://github.com/fixadev",
-    "linkedin": "https://www.linkedin.com/company/pixa-dev"
+    "linkedin": "https://www.linkedin.com/company/fixadev"
   },
   "openapi": "./api-reference/openapi.json"
 }
