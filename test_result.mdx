@@ -1,0 +1,36 @@
+---
+title: TestResult
+description: "contains the results of running a test"
+---
+
+## overview
+
+the `TestResult` class represents the complete results of running a test, including the test definition, evaluation results, transcript, and any errors that occurred.
+
+## constructor
+
+```python
+TestResult(
+    test: Test,
+    evaluation_results: Optional[EvaluationResponse],
+    transcript: List[ChatCompletionMessageParam],
+    stereo_recording_url: str,
+    error: Optional[str] = None
+)
+```
+
+### parameters
+
+- `test` (Test): the test that was run
+- `evaluation_results` (Optional[EvaluationResponse]): results from evaluating the test, if evaluation was successful
+- `transcript` (List[ChatCompletionMessageParam]): complete transcript of the test call
+- `stereo_recording_url` (str): url to the stereo recording of the call
+- `error` (Optional[str]): error message if the test failed, none otherwise
+
+## notes
+
+- returned by TestRunner.run_tests() as a list of results
+- contains all information about the test execution
+- evaluation_results may be none if evaluation failed
+- error will be set if the test failed to complete
+- transcript contains the full conversation between the test agent and your voice agent

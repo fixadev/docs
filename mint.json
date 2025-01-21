@@ -45,10 +45,11 @@
         "scenario",
         {
           "group": "Evaluators",
-          "pages": ["local_evaluator", "cloud_evaluator"]
+          "pages": ["local_evaluator", "cloud_evaluator", "evaluation_response"]
         },
         "test",
-        "test_runner"
+        "test_runner",
+        "test_result"
       ]
     },
     { "group": "get started", "pages": ["fixa-observe/introduction"] },
