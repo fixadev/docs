@@ -1,0 +1,55 @@
+---
+title: Test
+description: "combines a scenario with an agent to create a test case"
+---
+
+## overview
+
+the `Test` class represents a test case that combines a scenario with an agent. it defines what will be tested and which agent will perform the test.
+
+## constructor
+
+```python
+Test(
+    scenario: Scenario,
+    agent: Agent
+)
+```
+
+### parameters
+
+- `scenario` (Scenario): the scenario to test
+- `agent` (Agent): the agent to test with
+
+## example usage
+
+```python
+# create an agent
+agent = Agent(
+    name="jessica",
+    prompt="you are a young woman named jessica who says 'like' a lot"
+)
+
+# create a scenario
+scenario = Scenario(
+    name="order_donut",
+    prompt="order a dozen donuts with sprinkles and a coffee",
+    evaluations=[
+        Evaluation(name="order_success", prompt="the order was successful"),
+        Evaluation(name="price_confirmed", prompt="the agent confirmed the price of the order"),
+    ]
+)
+
+# create a test
+test = Test(scenario=scenario, agent=agent)
+
+# add to test runner
+test_runner.add_test(test)
+```
+
+## notes
+
+- a test is the combination of what to test (scenario) and who will test it (agent)
+- multiple tests can be created with different scenario-agent combinations
+- tests are executed by the testrunner
+- each test will result in a separate call to your voice agent

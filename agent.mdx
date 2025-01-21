@@ -1,0 +1,39 @@
+---
+title: Agent
+description: "the voice agent that calls your voice agent"
+---
+
+## overview
+
+the `Agent` class represents a voice agent that will call your voice agent for testing purposes. it defines the characteristics and behavior of the test agent through a prompt and voice settings.
+
+## constructor
+
+```python
+Agent(
+    name: str,
+    prompt: str,
+    voice_id: str = "79a125e8-cd45-4c13-8a67-188112f4dd22"
+)
+```
+
+### parameters
+
+- `name` (str): the name of the agent (used when displaying test results)
+- `prompt` (str): the system prompt that defines the agent's characteristics and behavior
+- `voice_id` (str, optional): the cartesia voice id for the agent. defaults to a british female voice.
+
+## example usage
+
+```python
+agent = Agent(
+    name="jessica",
+    prompt="you are a young woman named jessica who says 'like' a lot",
+    voice_id="b7d50908-b17c-442d-ad8d-810c63997ed9"
+)
+```
+
+## notes
+
+- the agent's prompt should define its personality, speaking patterns, and any specific behaviors you want it to exhibit during the test call.
+- the voice id determines how the agent will sound during the call. you can use different voices to test how your system handles various speaker characteristics.

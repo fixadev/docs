@@ -1,0 +1,51 @@
+---
+title: EvaluationResponse
+description: "contains the results of evaluating a test call"
+---
+
+## overview
+
+the `EvaluationResponse` class represents the results of evaluating a test call. it contains a list of evaluation results and any additional data from the evaluation process.
+
+## constructor
+
+```python
+EvaluationResponse(
+    evaluation_results: List[EvaluationResult],
+    extra_data: Dict[str, Any]
+)
+```
+
+### parameters
+
+- `evaluation_results` (List[EvaluationResult]): list of individual evaluation results
+- `extra_data` (Dict[str, Any]): additional data from the evaluation process, such as fixa-observe urls
+
+## example usage
+
+```python
+response = EvaluationResponse(
+    evaluation_results=[
+        EvaluationResult(
+            name="order_success",
+            passed=True,
+            reason="the order was successfully placed and confirmed"
+        ),
+        EvaluationResult(
+            name="price_confirmed",
+            passed=False,
+            reason="the price was not mentioned during the conversation"
+        )
+    ],
+    extra_data={
+        "fixa_observe_call_url": "https://www.fixa.dev/observe/calls/123"
+    }
+)
+```
+
+## notes
+
+- returned by both LocalEvaluator and CloudEvaluator
+- evaluation_results contains the pass/fail status and reasoning for each evaluation criterion
+- extra_data may contain different information depending on the evaluator used
+- with cloudevaluator, extra_data includes the fixa-observe url for detailed analysis
