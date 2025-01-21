@@ -37,6 +37,10 @@ NGROK_AUTH_TOKEN=your_ngrok_auth_token
 
 ## create a test script:
 
+make sure to replace `TWILIO_PHONE_NUMBER` and `PHONE_NUMBER_TO_CALL` with your own numbers.
+
+if you have a paid ngrok plan, be sure to add your ngrok domain to the `listener` variable.
+
 ```python main.py
 from fixa import Test, Agent, Scenario, Evaluation, TestRunner
 from fixa.evaluators import LocalEvaluator
@@ -45,8 +49,8 @@ import ngrok, os, asyncio
 
 load_dotenv(override=True)
 
-TWILIO_PHONE_NUMBER = "+15554443333" # the twilio phone number to initiate calls from
-PHONE_NUMBER_TO_CALL = "+15554443333" # the phone number to call
+TWILIO_PHONE_NUMBER = "+15554443333" # the twilio phone number to initiate calls from (must be a number you own)
+PHONE_NUMBER_TO_CALL = "+15554443333" # the phone number of your agent
 
 async def main():
     # define test agent to call your voice agent
