@@ -152,6 +152,11 @@
                       "regionId": "USA",
                       "ttsModel": "eleven-labs-v2"
                     }
+                  },
+                  "webhookUrl": {
+                    "type": "string",
+                    "optional": true,
+                    "description": "url for fixa to post call data to when analysis is complete"
                   }
                 }
               }
