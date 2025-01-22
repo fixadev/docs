@@ -155,7 +155,6 @@
                   },
                   "webhookUrl": {
                     "type": "string",
-                    "optional": true,
                     "description": "url for fixa to post call data to when analysis is complete"
                   }
                 }
@@ -176,6 +175,10 @@
                     "success": {
                       "type": "boolean",
                       "description": "whether the call was uploaded successfully"
+                    },
+                    "callId": {
+                      "type": "string",
+                      "description": "the id of the call"
                     }
                   }
                 }
